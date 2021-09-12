@@ -18,7 +18,7 @@ def codeBlock(msg):
     return "```" + msg + "```\n"
 
 
-def getFiitFood():
+def getFiitFood(weekDay):
 
     url = "http://www.freefood.sk/menu/#fiit-food"
     headers = requests.utils.default_headers()
@@ -27,9 +27,9 @@ def getFiitFood():
     })
     response = requests.get(url,  headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
-    
+
     weeklyMenu = soup.findAll(
-        "ul", {"class": "daily-offer"})[0].findAll("ul", {"class": "day-offer"})[3]
+        "ul", {"class": "daily-offer"})[1].findAll("ul", {"class": "day-offer"})[weekDay]
 
     msg = writeHeader("FIIT FOOD")
     menuString = ""
@@ -47,7 +47,7 @@ def getFiitFood():
     return msg
 
 
-def getKoliba():
+def getKoliba(weekDay):
     url = "https://mlynskakoliba.sk/#done"
     headers = requests.utils.default_headers()
     headers.update({
@@ -57,7 +57,7 @@ def getKoliba():
     soup = BeautifulSoup(response.content, "html.parser")
 
     weeklyMenu = soup.findAll(
-        "section", {"id": "done-section"})[0].findAll("div", {"class": "inner"})[3]
+        "section", {"id": "done-section"})[0].findAll("div", {"class": "inner"})[weekDay]
     priceRange = soup.find("p", {"id": "text11"}
                            ).text.strip().replace(" ", "\t")
 
@@ -80,7 +80,7 @@ def getKoliba():
     return msg
 
 
-def getEat():
+def getEat(weekDay):
     url = "http://eatandmeet.sk/tyzdenne-menu"
     headers = requests.utils.default_headers()
     headers.update({
@@ -89,7 +89,7 @@ def getEat():
     response = requests.get(url,  headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
     weeklyMenu = soup.findAll(
-        "div", {"id": "day-3"})[0].findAll("div", {"class": "menu-details"})
+        "div", {"id": f"day-{weekDay+1}"})[0].findAll("div", {"class": "menu-details"})
 
     msg = writeHeader("EAT&MEET")
     msg += subHeader("Denné Menu")
