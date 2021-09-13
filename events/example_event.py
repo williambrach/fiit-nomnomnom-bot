@@ -17,7 +17,7 @@ class ExampleEvent(BaseEvent):
     # Override the run() method
     # It will be called once every {interval_minutes} minutes
     async def run(self, client):
-        now = datetime.now()
+        now = datetime.datetime.now()
 
         if now.hour == 8:
             weekDay = datetime.datetime.today().weekday()

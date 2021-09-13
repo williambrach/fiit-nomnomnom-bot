@@ -30,6 +30,8 @@ class Test(BaseCommand):
         # parameters as specified in __init__
         # 'message' is the discord.py Message object for the command to handle
         # 'client' is the bot Client object
+
+        
         weekDay = datetime.datetime.today().weekday()
         skDay = {
             0 : "Pondelok",
